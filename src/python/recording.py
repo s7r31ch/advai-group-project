@@ -49,19 +49,24 @@ image_sav_path = "src/resources/record_downcam/"
 is_record = 0
 LogUtils.log(LOG_SOURCE, "以键盘控制方式运行，截图功能开启，控制周期：0.1s。2秒后开始运行。")
 time.sleep(2)
-while True:
-    is_record = (is_record + 1) % 10
-    if is_record == 0:
-        is_success, image = QBotUtils.get_image(qbot, QLabsQBotPlatform.CAMERA_DOWNWARD)
-        timestamp = str(LogUtils.get_current_timestamp())
-        file_name = image_sav_path + timestamp + ".jpg"
-        cv2.imwrite(file_name, image)
-        
-    # 居然是退出
-    if keyboard.is_pressed("q"):
-        wheel_speed_left = 0
-        wheel_speed_right = 0
-        qbot.command_and_request_state(wheel_speed_right, wheel_speed_left)
-        LogUtils.log(LOG_SOURCE, "检测到 'Q/q' 键，退出程序！")
-        break
-    time.sleep(0.1)
+try:
+    while True:
+        # 是自动截图的时候了
+        is_record = (is_record + 1) % 10
+        if is_record == 0:
+            is_success, image = QBotUtils.get_image(qbot, QLabsQBotPlatform.CAMERA_DOWNWARD)
+            timestamp = str(LogUtils.get_current_timestamp())
+            file_name = image_sav_path + timestamp + ".jpg"
+            cv2.imwrite(file_name, image)
+
+        # 居然是退出
+        if keyboard.is_pressed("q"):
+            wheel_speed_left = 0
+            wheel_speed_right = 0
+            qbot.command_and_request_state(wheel_speed_right, wheel_speed_left)
+            LogUtils.log(LOG_SOURCE, "检测到 'q' 键，退出程序！")
+            break
+        time.sleep(0.1)
+except Exception as e:
+    LogUtils.log(LOG_SOURCE, e)
+
