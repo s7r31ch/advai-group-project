@@ -24,7 +24,7 @@ EnvironmentUtils.set_wall(qlab)
 # 是创建 QBot 实体的时候了
 # 也就是说需要确定位置和朝向
 location = [-1.5, 0, 0.1]
-rotation = [0,0,-PI/2]
+rotation = [0,0,PI/2]
 qbot = QBotUtils.get_qbot(qlab,location,rotation)
 LogUtils.log(LOG_SOURCE, "实验环境初始化完成...")
 
@@ -47,8 +47,8 @@ keyboard.hook(block_input)
 # 前面需要设置下视摄像头截图保存路径，暂且以 0.5s 的间隔截图吧
 image_sav_path = "src/resources/record_downcam/"
 is_record = 0
-LogUtils.log(LOG_SOURCE, "以键盘控制方式运行，截图功能开启，控制周期：0.1s。2秒后开始运行。")
-time.sleep(2)
+LogUtils.log(LOG_SOURCE, "以键盘控制方式运行，截图功能开启，控制周期：0.1s。")
+input("按下任意键开始")
 try:
     while True:
         # 是自动截图的时候了
@@ -58,7 +58,8 @@ try:
             timestamp = str(LogUtils.get_current_timestamp())
             file_name = image_sav_path + timestamp + ".jpg"
             cv2.imwrite(file_name, image)
-
+            LogUtils.log(LOG_SOURCE,"已截图")
+            
         # 居然是退出
         if keyboard.is_pressed("q"):
             wheel_speed_left = 0
