@@ -43,7 +43,7 @@ class LabelAssistant:
         for image_name in os.listdir(self.dataset_path):
             image_path_name = self.dataset_path + "/" + image_name
             image = cv2.imread(image_path_name)
-            cv2.imshow(image_name, image)
+            cv2.imshow(image_name, image[100:300,:])
             key = cv2.waitKey(0)
             category = LabelAssistant.fit(key)
             if category == "delete":
@@ -52,6 +52,7 @@ class LabelAssistant:
             else:
                 record = (image_name, category)
                 csv.writer(category_file).writerow(record)
+                category_file.flush()
                 message = "标签已记录：图片" + image_name + " 的类别为 " + category
                 
             LogUtils.log(LOG_SOURCE, message)
