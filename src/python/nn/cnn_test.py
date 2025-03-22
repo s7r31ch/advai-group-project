@@ -47,7 +47,7 @@ transform = transforms.Compose([
 ])
 
 # 加载并预处理图像
-image_path = "src/resources/ds_test/crossroad Image.png"
+image_path = "src/resources/ds_test/no-forward Image.png"
 image = Image.open(image_path).convert('L')  # 灰度图
 image = transform(image)
 image = image.unsqueeze(0)  # 增加批次维度
@@ -60,11 +60,11 @@ with torch.no_grad():
 
 # 映射类别索引到标签名称
 label_map = {
-    "single": 0,
-    "t_left": 1,
-    "t_middle": 2,
-    "t_right": 3,
-    "cross": 4
+    0: "single",
+    1: "t_left",
+    2: "t_middle",
+    3: "t_right",
+    4: "cross"
 }
 
 predicted_label = label_map[predicted_class]

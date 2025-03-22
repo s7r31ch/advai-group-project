@@ -54,9 +54,9 @@ transform = transforms.Compose([
 
 # 实例化数据集和 DataLoader
 dataset = MyDataset(csv_file="./src/resources/label.csv",
-                    img_dir="./src/resources/downcam",
+                    img_dir="./src/resources/ds_train",
                     transform=transform)
-dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=2)
+dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=0)
 
 # 定义一个简单的 CNN 网络
 class CNNClassifier(nn.Module):
@@ -115,6 +115,6 @@ for epoch in range(num_epochs):
     epoch_loss = running_loss / len(dataset)
     print(f"Epoch {epoch+1}/{num_epochs}, Loss: {epoch_loss:.4f}")
     
-torch.save(model.state_dict(), "./src/resources/model.pth")
+torch.save(model.state_dict(), "./src/resources/model_new.pth")
 
 print("训练完成")
