@@ -15,6 +15,7 @@ from PIL import Image
 
 PI = numpy.pi
 LOG_SOURCE = "automatic"
+CAMERA_CENTER = 320
 
 # 是初始化实验环境的时候了
 LogUtils.log(LOG_SOURCE, "正在初始化实验环境...")
@@ -38,7 +39,8 @@ myCNN = MyCNN(6)
 classifier = Classifier("src/resources/model_2025-03-22-184045.pth", myCNN)
 
 time.sleep(2)
-
+LogUtils.log(LOG_SOURCE, "程序启动")
+controller.start()
 while True:
     is_success, image_raw = QBotUtils.get_image(qbot, QLabsQBotPlatform.CAMERA_DOWNWARD)
     image = Image.fromarray(image_raw)
@@ -48,7 +50,14 @@ while True:
         
     match label:
         case "single":
-            controller.set_speed(0.07).apply_speed()
+            center = controller.get_center(image_raw)
+            error = center - CAMERA_CENTER
+            message = "当前x轴坐标误差：" + str(error)
+            LogUtils.log(LOG_SOURCE, message)
+            control_variable = controller.compute(error)
+            message = "为消除误差产生控制量：" + str(control_variable)
+            LogUtils.log(LOG_SOURCE, message)
+            controller.error_correction(control_variable)
         
         # 也就是说，接下来献上完全离开路径的可能，敬请见证
         case "off_track":
@@ -108,6 +117,8 @@ while True:
                         case "d":
                             LogUtils.log(LOG_SOURCE, "已选择右转")
                             controller.simple_right()
+                            
+            controller.start()
     
     # 程序退出万岁
     if keyboard.is_pressed("q"):
