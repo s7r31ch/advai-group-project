@@ -13,9 +13,9 @@ MAX_SPEED = 0.5
 class PIDController:
     def __init__(self, qbot, control_priod):
         
-        self.Kp = 0.04
+        self.Kp = 0.02
         self.Ki = 0.003
-        self.Kd = 0.2
+        self.Kd = 0.15
         self.prev_error = 0
         self.intergral = 0
         self.control_priod = control_priod

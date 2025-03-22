@@ -32,7 +32,7 @@ qbot = QBotUtils.get_qbot(qlab,location,rotation)
 LogUtils.log(LOG_SOURCE, "实验环境初始化完成...")
 
 # 前有 QBot 基础数值和分类器的设置，敬请见证
-control_period = 0.1
+control_period = 0.05
 controller = PIDController(qbot, control_period)
 
 myCNN = MyCNN(6)
