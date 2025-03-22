@@ -10,6 +10,15 @@ import torchvision.transforms as transforms
 
 # 自定义 Dataset，用于加载图像和标签
 class MyDataset(Dataset):
+    
+    label_map = {
+        "single": 0,
+        "t_left": 1,
+        "t_middle": 2,
+        "t_right": 3,
+        "cross": 4
+    }
+    
     def __init__(self, csv_file, img_dir, transform=None):
         """
         Args:
@@ -27,7 +36,7 @@ class MyDataset(Dataset):
     def __getitem__(self, idx):
         # 获取当前索引对应的图像文件名和标签
         img_name = self.labels_df.iloc[idx, 0]
-        label = int(self.labels_df.iloc[idx, 1])
+        label = self.label_map[self.labels_df.iloc[idx, 1]]
         img_path = os.path.join(self.img_dir, img_name)
         # 以灰度模式加载图像
         image = Image.open(img_path).convert('L')
@@ -105,5 +114,7 @@ for epoch in range(num_epochs):
         running_loss += loss.item() * images.size(0)
     epoch_loss = running_loss / len(dataset)
     print(f"Epoch {epoch+1}/{num_epochs}, Loss: {epoch_loss:.4f}")
+    
+torch.save(model.state_dict(), "./src/resources/model.pth")
 
 print("训练完成")
