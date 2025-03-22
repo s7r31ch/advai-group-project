@@ -31,6 +31,7 @@ wheel_speed_left = 0
 wheel_speed_right = 0
 delta = 0.05
 
+
 while True:
     qbot.command_and_request_state(wheel_speed_right, wheel_speed_left)
     if keyboard.is_pressed("w"):

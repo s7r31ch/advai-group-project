@@ -7,7 +7,6 @@ from utils.QLabsUtils import QLabsUtils
 from utils.EnvironmentUtils import EnvironmentUtils
 from utils.QBotUtils import QBotUtils
 from qvl.qbot_platform import QLabsQBotPlatform
-from controller.PIDController import PIDController
 from controller.KeyboardController import KeyboardController
 from utils.LogUtils import LogUtils
 

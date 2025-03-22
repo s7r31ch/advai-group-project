@@ -23,3 +23,8 @@ class LogUtils:
     def log(source, message):
         regex = "%Y-%m-%d %H:%M:%S"
         print(f"[{LogUtils.get_current_readable_timestamp(regex)}] {source}: {message}")
+        
+    @staticmethod
+    def get_model_name_timestamp():
+        regex = "%Y-%m-%d-%H%M%S"
+        return datetime.now().strftime(regex)
