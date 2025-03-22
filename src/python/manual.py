@@ -30,12 +30,12 @@ LogUtils.log(LOG_SOURCE, "实验环境初始化完成...")
 # 前面需要设置QBot初始状态以及控制信号的增量
 # 献上键盘控制器与 QBot 实例的绑定吧
 delta = 0.05
-keyboard_controller = KeyboardController(qbot, delta)
+controller = KeyboardController(qbot, delta)
 
 # 接下来，设置键盘选项很有用
 def press(event):
     key = event.name.lower()
-    keyboard_controller.send(key)
+    controller.send(key)
 def block_input(event):
     if event.event_type == 'down': 
         return False

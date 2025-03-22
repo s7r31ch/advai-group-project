@@ -26,3 +26,9 @@ class QBotUtils:
         is_success, image = qbot.get_image(camera_type)
         image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
         return (is_success, image)
+
+    @staticmethod
+    def get_image_show(qbot, camera_type, title="NOW"):
+        is_success, image = qbot.get_image(camera_type)
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+        cv2.imshow(title, image)

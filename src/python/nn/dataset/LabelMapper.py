@@ -5,7 +5,8 @@ class LabelMapper:
         "t_left": 1,
         "t_middle": 2,
         "t_right": 3,
-        "cross": 4
+        "cross": 4,
+        "off_track": 5
     }
     
     cat_to_label = {
@@ -13,5 +14,6 @@ class LabelMapper:
         1: "t_left",
         2: "t_middle",
         3: "t_right",
-        4: "cross"
+        4: "cross",
+        5: "off_track"
 }

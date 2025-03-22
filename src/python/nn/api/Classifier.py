@@ -6,8 +6,7 @@ from nn.dataset.LabelMapper import LabelMapper
 class Classifier:
     def __init__(self, model_path, network):
         self.model_path = model_path
-        self.network = network
-        self.model = network()
+        self.model = network
         self.model.load_state_dict(torch.load(self.model_path))
         self.model.eval()
     

@@ -3,7 +3,7 @@ from nn.dataset.LabelMapper import LabelMapper
 import pandas as pd
 import os
 from PIL import Image
-from python.nn.dataset.Preprocessing import Preprocessing
+from nn.dataset.Preprocessing import Preprocessing
 
 class MyDataset(Dataset):
     

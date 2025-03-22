@@ -2,7 +2,7 @@ import torch.nn as nn
 
 # 定义一个简单的 CNN 网络
 class MyCNN(nn.Module):
-    def __init__(self, num_classes=5):
+    def __init__(self, num_classes):
         super(MyCNN, self).__init__()
         self.num_classes = num_classes
         self.features = nn.Sequential(
