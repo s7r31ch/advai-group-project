@@ -7,15 +7,15 @@ from PIL import Image
 import numpy as np
 
 LOG_SOURCE = "PIDController"
-BASE_SPEED = 0.07
+BASE_SPEED = 0.1
 MAX_SPEED = 0.5
 
 class PIDController:
     def __init__(self, qbot, control_priod):
         
-        self.Kp = 0.01
-        self.Ki = 0.001
-        self.Kd = 0.03
+        self.Kp = 0.04
+        self.Ki = 0.003
+        self.Kd = 0.2
         self.prev_error = 0
         self.intergral = 0
         self.control_priod = control_priod
@@ -37,7 +37,7 @@ class PIDController:
     
     def get_center(self, image_raw):
 
-        image_roi = image_raw[175:225,:]
+        image_roi = image_raw[185:215,:]
         
         # cv2.imshow("sss", image_roi)
         # cv2.waitKey(0)
@@ -80,7 +80,7 @@ class PIDController:
         self.apply_speed()
         time.sleep(5)
         self.start()
-        time.sleep(2)
+        time.sleep(1)
         self.stop()
         LogUtils.log(LOG_SOURCE, "自动转向（左）完成")
 
@@ -92,12 +92,12 @@ class PIDController:
         self.apply_speed()
         time.sleep(5)
         self.start()
-        time.sleep(2)
+        time.sleep(1)
         LogUtils.log(LOG_SOURCE, "自动转向（右）完成")
         
     def simple_straight(self):
         LogUtils.log(LOG_SOURCE, "正在进行自动转向（直行）")
         self.start()
-        time.sleep(2)
+        time.sleep(1)
         self.stop()
         LogUtils.log(LOG_SOURCE, "自动转向（直行）完成")

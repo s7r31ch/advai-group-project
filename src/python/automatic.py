@@ -117,9 +117,10 @@ while True:
                         case "d":
                             LogUtils.log(LOG_SOURCE, "已选择右转")
                             controller.simple_right()
-                            
+
+            # controller.simple_straight()
             controller.start()
-    
+
     # 程序退出万岁
     if keyboard.is_pressed("q"):
         wheel_speed_left = 0
