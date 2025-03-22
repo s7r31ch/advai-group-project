@@ -14,7 +14,7 @@ class PIDController:
     def __init__(self, qbot, control_priod):
         
         self.Kp = 0.02
-        self.Ki = 0.003
+        self.Ki = -0.001
         self.Kd = 0.15
         self.prev_error = 0
         self.intergral = 0

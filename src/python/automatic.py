@@ -12,6 +12,7 @@ from utils.LogUtils import LogUtils
 from nn.api.Classifier import Classifier
 from nn.network.MyCNN import MyCNN
 from PIL import Image
+import matplotlib.pyplot as plt
 
 PI = numpy.pi
 LOG_SOURCE = "automatic"
@@ -38,6 +39,21 @@ controller = PIDController(qbot, control_period)
 myCNN = MyCNN(6)
 classifier = Classifier("src/resources/model_2025-03-22-184045.pth", myCNN)
 
+# 设置 x 轴误差图像样式
+fig, ax = plt.subplots()
+ax.set_xlim(-25, 25)  # x轴范围
+ax.set_ylim(-1, 1)  # x轴范围
+ax.yaxis.set_visible(False)
+ax.spines['left'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['top'].set_visible(False)
+ax.spines['bottom'].set_position('center')
+point, = ax.plot([], [], 'ro')
+plt.ion()
+plt.draw()
+fig.canvas.manager.set_window_title("Monitor | Error on X-axis")
+plt.show()
+
 time.sleep(2)
 LogUtils.log(LOG_SOURCE, "程序启动")
 controller.start()
@@ -48,10 +64,23 @@ while True:
         label = classifier.classify(image)
         # print(f"当前路径类型：{label}")
         
+        # Monitor of Down Camera
+        cv2.imshow("Monitor | Down Camera", image_raw)
+        cv2.waitKey(10)
     match label:
         case "single":
             center = controller.get_center(image_raw)
             error = center - CAMERA_CENTER
+            if 'text' in globals(): text.remove()
+            point.set_data([error], [0])
+            text = plt.text(
+                error, 0.3,           # 坐标位置
+                f"error = {error}", # 文本内容（保留1位小数）
+                ha='center',            # 水平居中对齐
+                va='bottom',            # 垂直底部对齐
+                fontsize=12,
+                color='red'
+            )
             message = "当前x轴坐标误差：" + str(error)
             LogUtils.log(LOG_SOURCE, message)
             control_variable = controller.compute(error)
@@ -72,7 +101,7 @@ while True:
             controller.stop()
             message = "检测到路径类型：" + label
             LogUtils.log(LOG_SOURCE, message)
-            
+            '''
             match label:
                 case "t_left":
                     LogUtils.log(LOG_SOURCE, "检测到多路径，需要手动选择(a/w)")
@@ -117,8 +146,8 @@ while True:
                         case "d":
                             LogUtils.log(LOG_SOURCE, "已选择右转")
                             controller.simple_right()
-
-            # controller.simple_straight()
+            '''
+            controller.simple_straight()
             controller.start()
 
     # 程序退出万岁
