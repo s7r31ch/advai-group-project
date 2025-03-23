@@ -14,11 +14,11 @@ class QBotUtils:
     
     @staticmethod
     def get_qbot(qlab, location, rotation):
-        LogUtils.log(LOG_SOURCE, "正在创建 QBot 实例...")
+        LogUtils.log(LOG_SOURCE, "Generating QBot instance...")
         qlabs_qbot_platform = QLabsQBotPlatform(qlab)
         qlabs_qbot_platform.spawn_id(0, location, rotation, scale=[1,1,1], configuration=1, waitForConfirmation= False)
         time.sleep(0.5)
-        LogUtils.log(LOG_SOURCE, "QBot 实例创建完成...")
+        LogUtils.log(LOG_SOURCE, "QBot instance generated.")
         return qlabs_qbot_platform
     
     @staticmethod

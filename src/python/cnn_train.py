@@ -50,4 +50,4 @@ model_ext = ".pth"
 model_path = model_dir + model_name + model_ext
 torch.save(network.state_dict(), model_path)
 
-print("训练完成")
+print("Traning complete!")

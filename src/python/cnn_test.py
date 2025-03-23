@@ -10,4 +10,4 @@ classifier = Classifier("src/resources/model_2025-03-22-184045.pth", myCNN)
 image_path = "src/resources/ds_test/22.86_Corner.png"
 image = Image.open(image_path).convert('L')  # 灰度图
 
-print(f"预测类型为：{classifier.classify(image)}")
+print(f"predicted type: {classifier.classify(image)}")

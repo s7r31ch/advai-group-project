@@ -19,7 +19,7 @@ LOG_SOURCE = "automatic"
 CAMERA_CENTER = 320
 
 # 是初始化实验环境的时候了
-LogUtils.log(LOG_SOURCE, "正在初始化实验环境...")
+LogUtils.log(LOG_SOURCE, "Initializing experiment environment...")
 # 首先，以创建与 QLabs 的连接为目标吧
 qlab = QLabsUtils.get_qlab("localhost")
 # 赐予地板和墙壁吧
@@ -30,7 +30,7 @@ EnvironmentUtils.set_wall(qlab)
 location = [-1.5, 0, 0.1]
 rotation = [0,0,-PI/2]
 qbot = QBotUtils.get_qbot(qlab,location,rotation)
-LogUtils.log(LOG_SOURCE, "实验环境初始化完成...")
+LogUtils.log(LOG_SOURCE, "Experiment environment initialized...")
 
 # 前有 QBot 基础数值和分类器的设置，敬请见证
 control_period = 0.05
@@ -55,7 +55,7 @@ fig.canvas.manager.set_window_title("Monitor | Error on X-axis")
 plt.show()
 
 time.sleep(2)
-LogUtils.log(LOG_SOURCE, "程序启动")
+LogUtils.log(LOG_SOURCE, "Program initiated, controlled by PID controller. Screenshot disabled. Control period: 0.05s.")
 controller.start()
 while True:
     is_success, image_raw = QBotUtils.get_image(qbot, QLabsQBotPlatform.CAMERA_DOWNWARD)
@@ -81,73 +81,73 @@ while True:
                 fontsize=12,
                 color='red'
             )
-            message = "当前x轴坐标误差：" + str(error)
+            message = "Current error on X-axis: " + str(error)
             LogUtils.log(LOG_SOURCE, message)
             control_variable = controller.compute(error)
-            message = "为消除误差产生控制量：" + str(control_variable)
+            message = "Generated control variable: " + str(control_variable)
             LogUtils.log(LOG_SOURCE, message)
             controller.error_correction(control_variable)
         
         # 也就是说，接下来献上完全离开路径的可能，敬请见证
         case "off_track":
             controller.stop()
-            LogUtils.log(LOG_SOURCE, "目标失去路径跟踪，程序中断！")
-            QBotUtils.get_image_show(qbot, QLabsQBotPlatform.CAMERA_DOWNWARD, "最后回传图像")
+            LogUtils.log(LOG_SOURCE, "Track lost, program terminated!")
+            QBotUtils.get_image_show(qbot, QLabsQBotPlatform.CAMERA_DOWNWARD, "Finally Sent Image")
             cv2.waitKey(0)
             break
         
         # 是统一处理其他情况的时候了
         case _:
             controller.stop()
-            message = "检测到路径类型：" + label
+            message = "Track detected: " + label
             LogUtils.log(LOG_SOURCE, message)
-            '''
+
             match label:
                 case "t_left":
-                    LogUtils.log(LOG_SOURCE, "检测到多路径，需要手动选择(a/w)")
+                    LogUtils.log(LOG_SOURCE, "Multi-track detected, please select a way manually. (a/w)")
                     signal = input()
                     match signal:
                         case "a":
-                            LogUtils.log(LOG_SOURCE, "已选择左转")
+                            LogUtils.log(LOG_SOURCE, "Left way selected")
                             controller.simple_left()
                         case "w":
-                            LogUtils.log(LOG_SOURCE, "已选择直行")
+                            LogUtils.log(LOG_SOURCE, "Straight way selected")
                             controller.simple_straight()
                 case "t_middle":
-                    LogUtils.log(LOG_SOURCE, "检测到多路径，需要手动选择(a/d)")
+                    LogUtils.log(LOG_SOURCE, "Multi-track detected, please select a way manually. (a/d)")
                     signal = input()
                     match signal:
                         case "a":
-                            LogUtils.log(LOG_SOURCE, "已选择左转")
+                            LogUtils.log(LOG_SOURCE, "Left way selected")
                             controller.simple_left()
                         case "d":
-                            LogUtils.log(LOG_SOURCE, "已选择右转")
+                            LogUtils.log(LOG_SOURCE, "Right way selected")
                             controller.simple_right()
                 case "t_right":
-                    LogUtils.log(LOG_SOURCE, "检测到多路径，需要手动选择(w/d)")
+                    LogUtils.log(LOG_SOURCE, "Multi-track detected, please select a way manually. (w/d)")
                     signal = input()
                     match signal:
                         case "w":
-                            LogUtils.log(LOG_SOURCE, "已选择直行")
+                            LogUtils.log(LOG_SOURCE, "Straight way selected")
                             controller.simple_straight()
                         case "d":
-                            LogUtils.log(LOG_SOURCE, "已选择右转")
+                            LogUtils.log(LOG_SOURCE, "Right way selected")
                             controller.simple_right()
                 case "cross":
-                    LogUtils.log(LOG_SOURCE, "检测到多路径，需要手动选择(a/w/d)")
+                    LogUtils.log(LOG_SOURCE, "Multi-track detected, please select a way manually. (a/w/d)")
                     signal = input()
                     match signal:
                         case "a":
-                            LogUtils.log(LOG_SOURCE, "已选择左转")
+                            LogUtils.log(LOG_SOURCE, "Left way selected")
                             controller.simple_left()
                         case "w":
-                            LogUtils.log(LOG_SOURCE, "已选择直行")
+                            LogUtils.log(LOG_SOURCE, "Straight way selected")
                             controller.simple_straight()
                         case "d":
-                            LogUtils.log(LOG_SOURCE, "已选择右转")
+                            LogUtils.log(LOG_SOURCE, "Right way selected")
                             controller.simple_right()
-            '''
-            controller.simple_straight()
+
+            # controller.simple_straight()
             controller.start()
 
     # 程序退出万岁
@@ -155,7 +155,7 @@ while True:
         wheel_speed_left = 0
         wheel_speed_right = 0
         qbot.command_and_request_state(wheel_speed_right, wheel_speed_left)
-        LogUtils.log(LOG_SOURCE, "检测到 'q' 键，退出程序！")
+        LogUtils.log(LOG_SOURCE, "Program terminated manually...")
         break        
     
     time.sleep(control_period)

@@ -16,12 +16,12 @@ class QLabsUtils:
     
     @staticmethod
     def get_qlab(address):
-        LogUtils.log(LOG_SOURCE, "正在建立与实验环境的连接...")
+        LogUtils.log(LOG_SOURCE, "Connecting to virtual environment...")
         quanser_interactive_labs = QuanserInteractiveLabs()
         quanser_interactive_labs.open(address)
-        LogUtils.log(LOG_SOURCE, "实验环境已连接")
-        LogUtils.log(LOG_SOURCE, "正在清理实验环境...")
+        LogUtils.log(LOG_SOURCE, "Virtual environment connected.")
+        LogUtils.log(LOG_SOURCE, "Formatting virtual environment...")
         quanser_interactive_labs.destroy_all_spawned_actors()
-        LogUtils.log(LOG_SOURCE, "实验环境已清理完成")
+        LogUtils.log(LOG_SOURCE, "Virtual environment formatted.")
         return quanser_interactive_labs
     

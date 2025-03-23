@@ -11,10 +11,10 @@ from controller.KeyboardController import KeyboardController
 from utils.LogUtils import LogUtils
 
 PI = numpy.pi
-LOG_SOURCE = "recording"
+LOG_SOURCE = "manual"
 
 # 是初始化实验环境的时候了
-LogUtils.log(LOG_SOURCE, "正在初始化实验环境...")
+LogUtils.log(LOG_SOURCE, "Initializing experiment environment...")
 # 首先，以创建与 QLabs 的连接为目标吧
 qlab = QLabsUtils.get_qlab("localhost")
 # 赐予地板和墙壁吧
@@ -25,7 +25,7 @@ EnvironmentUtils.set_wall(qlab)
 location = [-1.5, 0, 0.1]
 rotation = [0,0,PI/2]
 qbot = QBotUtils.get_qbot(qlab,location,rotation)
-LogUtils.log(LOG_SOURCE, "实验环境初始化完成...")
+LogUtils.log(LOG_SOURCE, "Experiment environment initialized...")
 
 # 前面需要设置QBot初始状态以及控制信号的增量
 # 献上键盘控制器与 QBot 实例的绑定吧
@@ -46,8 +46,8 @@ keyboard.hook(block_input)
 # 前面需要设置下视摄像头截图保存路径，暂且以 0.5s 的间隔截图吧
 image_sav_path = "src/resources/record_downcam/"
 is_record = 0
-LogUtils.log(LOG_SOURCE, "以键盘控制方式运行，截图功能开启，控制周期：0.1s。")
-input("按下任意键开始")
+LogUtils.log(LOG_SOURCE, "Program initiated, controlled by keboard. Screenshot enabled. Control period: 0.1s.")
+input("Press any key to start")
 try:
     while True:
         # 是自动截图的时候了
@@ -57,14 +57,14 @@ try:
             timestamp = str(LogUtils.get_current_timestamp())
             file_name = image_sav_path + timestamp + ".jpg"
             cv2.imwrite(file_name, image)
-            LogUtils.log(LOG_SOURCE,"已截图")
+            LogUtils.log(LOG_SOURCE,"Screenshot captured")
             
         # 居然是退出
         if keyboard.is_pressed("q"):
             wheel_speed_left = 0
             wheel_speed_right = 0
             qbot.command_and_request_state(wheel_speed_right, wheel_speed_left)
-            LogUtils.log(LOG_SOURCE, "检测到 'q' 键，退出程序！")
+            LogUtils.log(LOG_SOURCE, "Program terminated manually...")
             break
         time.sleep(0.1)
 except Exception as e:

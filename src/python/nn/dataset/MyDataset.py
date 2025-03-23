@@ -8,12 +8,7 @@ from nn.dataset.Preprocessing import Preprocessing
 class MyDataset(Dataset):
     
     def __init__(self, csv_file, img_dir, transform=None):
-        """
-        Args:
-            csv_file (string): 标签文件路径，格式：{图片文件名},{标签}
-            img_dir (string): 训练集图像所在文件夹路径
-            transform (callable, optional): 对图像进行的转换操作
-        """
+
         self.labels_define = pd.read_csv(csv_file, header=None, names=["filename", "label"])
         self.img_dir = img_dir
         self.transform = transform
