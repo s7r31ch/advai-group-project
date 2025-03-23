@@ -9,7 +9,7 @@ class KeyboardController:
         self.wheel_speed_right = 0
         self.delta = delta
         self.qbot = qbot
-        LogUtils.log(LOG_SOURCE, "键盘控制器已绑定 QBot 实例")
+        LogUtils.log(LOG_SOURCE, "Keyboard controller binded to QBot Instance.")
         self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
     
     def send(self, signal):
@@ -18,24 +18,24 @@ class KeyboardController:
                 self.wheel_speed_left += self.delta
                 self.wheel_speed_right += self.delta
                 self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
-                LogUtils.log(LOG_SOURCE, "加速")
+                LogUtils.log(LOG_SOURCE, "Accelerate")
             case "s":
                 self.wheel_speed_left -= self.delta
                 self.wheel_speed_right -= self.delta
                 self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
-                LogUtils.log(LOG_SOURCE, "减速")
+                LogUtils.log(LOG_SOURCE, "Decelerate")
             case "a":
                 self.wheel_speed_left -= self.delta
                 self.wheel_speed_right += self.delta
                 self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
-                LogUtils.log(LOG_SOURCE, "前向左偏航/后向右偏航")
+                LogUtils.log(LOG_SOURCE, "Yaw to left")
             case "d":
                 self.wheel_speed_left += self.delta
                 self.wheel_speed_right -= self.delta
                 self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
-                LogUtils.log(LOG_SOURCE, "前向右偏航/后向左偏航")
+                LogUtils.log(LOG_SOURCE, "Yaw to right")
             case "b":
                 self.wheel_speed_left = 0
                 self.wheel_speed_right = 0
                 self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
-                LogUtils.log(LOG_SOURCE, "停止")
+                LogUtils.log(LOG_SOURCE, "Stop")

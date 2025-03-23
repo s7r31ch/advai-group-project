@@ -23,7 +23,7 @@ class PIDController:
         
         self.qbot = qbot
         self.stop()
-        LogUtils.log(LOG_SOURCE, "PID控制器已绑定 QBot 实例")
+        LogUtils.log(LOG_SOURCE, "PID controller binded to QBot Instance.")
 
     def compute(self, error):
         self.intergral += error * self.control_priod
@@ -74,7 +74,7 @@ class PIDController:
         self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
     
     def simple_left(self):
-        LogUtils.log(LOG_SOURCE, "正在进行自动转向（左）")
+        LogUtils.log(LOG_SOURCE, "Steering to left automatically...")
         self.wheel_speed_left = -0.05
         self.wheel_speed_right = 0.07
         self.apply_speed()
@@ -82,22 +82,22 @@ class PIDController:
         self.start()
         time.sleep(1)
         self.stop()
-        LogUtils.log(LOG_SOURCE, "自动转向（左）完成")
+        LogUtils.log(LOG_SOURCE, "Left steering completed.")
 
         
     def simple_right(self):
-        LogUtils.log(LOG_SOURCE, "正在进行自动转向（右）")
+        LogUtils.log(LOG_SOURCE, "Steering to right automatically...")
         self.wheel_speed_left = 0.07
         self.wheel_speed_right = -0.05
         self.apply_speed()
         time.sleep(5)
         self.start()
         time.sleep(1)
-        LogUtils.log(LOG_SOURCE, "自动转向（右）完成")
+        LogUtils.log(LOG_SOURCE, "Right steering completed.")
         
     def simple_straight(self):
-        LogUtils.log(LOG_SOURCE, "正在进行自动转向（直行）")
+        LogUtils.log(LOG_SOURCE, "Going straight automatically...")
         self.start()
         time.sleep(1)
         self.stop()
-        LogUtils.log(LOG_SOURCE, "自动转向（直行）完成")
+        LogUtils.log(LOG_SOURCE, "Continue to main program.")
