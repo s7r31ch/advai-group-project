@@ -27,8 +27,8 @@ EnvironmentUtils.set_floor(qlab)
 EnvironmentUtils.set_wall(qlab)
 # 是创建 QBot 实体的时候了
 # 也就是说需要确定位置和朝向
-location = [-1.5, 0, 0.1]
-rotation = [0,0,-PI/2]
+location = [0.0, 1.5, 0.1]
+rotation = [0,0,0]
 qbot = QBotUtils.get_qbot(qlab,location,rotation)
 LogUtils.log(LOG_SOURCE, "Experiment environment initialized...")
 
@@ -41,7 +41,7 @@ classifier = Classifier("src/resources/model_2025-03-22-184045.pth", myCNN)
 
 # 设置 x 轴误差图像样式
 fig, ax = plt.subplots()
-ax.set_xlim(-25, 25)  # x轴范围
+ax.set_xlim(-50, 50)  # x轴范围
 ax.set_ylim(-1, 1)  # x轴范围
 ax.yaxis.set_visible(False)
 ax.spines['left'].set_visible(False)
@@ -83,10 +83,11 @@ while True:
             )
             message = "Current error on X-axis: " + str(error)
             LogUtils.log(LOG_SOURCE, message)
-            control_variable = controller.compute(error)
-            message = "Generated control variable: " + str(control_variable)
-            LogUtils.log(LOG_SOURCE, message)
-            controller.error_correction(control_variable)
+            if abs(error) <= 200:
+                control_variable = controller.compute(error)
+                message = "Generated control variable: " + str(control_variable)
+                LogUtils.log(LOG_SOURCE, message)
+                controller.error_correction(control_variable)
         
         # 也就是说，接下来献上完全离开路径的可能，敬请见证
         case "off_track":
