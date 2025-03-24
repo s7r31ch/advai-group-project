@@ -15,7 +15,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 PI = numpy.pi
-LOG_SOURCE = "automatic"
+LOG_SOURCE = "programmed"
 CAMERA_CENTER = 320
 
 # 是初始化实验环境的时候了
@@ -39,6 +39,11 @@ controller = PIDController(qbot, control_period)
 myCNN = MyCNN(6)
 classifier = Classifier("src/resources/model_2025-03-22-184045.pth", myCNN)
 
+time.sleep(2)
+LogUtils.log(LOG_SOURCE, "Program initiated, controlled by PID controller. Screenshot disabled. Control period: 0.05s.")
+command_sequence = iter(input("Command sequences: "))
+# command_sequence = iter("adadaaaaaa")
+
 # 设置 x 轴误差图像样式
 fig, ax = plt.subplots()
 ax.set_xlim(-25, 25)  # x轴范围
@@ -54,8 +59,6 @@ plt.draw()
 fig.canvas.manager.set_window_title("Monitor | Error on X-axis")
 plt.show()
 
-time.sleep(2)
-LogUtils.log(LOG_SOURCE, "Program initiated, controlled by PID controller. Screenshot disabled. Control period: 0.05s.")
 controller.start()
 while True:
     is_success, image_raw = QBotUtils.get_image(qbot, QLabsQBotPlatform.CAMERA_DOWNWARD)
@@ -102,53 +105,26 @@ while True:
             message = "Track detected: " + label
             LogUtils.log(LOG_SOURCE, message)
 
-            match label:
-                case "t_left":
-                    LogUtils.log(LOG_SOURCE, "Multi-track detected, please select a way manually. (a/w)")
-                    signal = input()
-                    match signal:
-                        case "a":
-                            LogUtils.log(LOG_SOURCE, "Left way selected")
-                            controller.simple_left()
-                        case "w":
-                            LogUtils.log(LOG_SOURCE, "Straight way selected")
-                            controller.simple_straight()
-                case "t_middle":
-                    LogUtils.log(LOG_SOURCE, "Multi-track detected, please select a way manually. (a/d)")
-                    signal = input()
-                    match signal:
-                        case "a":
-                            LogUtils.log(LOG_SOURCE, "Left way selected")
-                            controller.simple_left()
-                        case "d":
-                            LogUtils.log(LOG_SOURCE, "Right way selected")
-                            controller.simple_right()
-                case "t_right":
-                    LogUtils.log(LOG_SOURCE, "Multi-track detected, please select a way manually. (w/d)")
-                    signal = input()
-                    match signal:
-                        case "w":
-                            LogUtils.log(LOG_SOURCE, "Straight way selected")
-                            controller.simple_straight()
-                        case "d":
-                            LogUtils.log(LOG_SOURCE, "Right way selected")
-                            controller.simple_right()
-                case "cross":
-                    LogUtils.log(LOG_SOURCE, "Multi-track detected, please select a way manually. (a/w/d)")
-                    signal = input()
-                    match signal:
-                        case "a":
-                            LogUtils.log(LOG_SOURCE, "Left way selected")
-                            controller.simple_left()
-                        case "w":
-                            LogUtils.log(LOG_SOURCE, "Straight way selected")
-                            controller.simple_straight()
-                        case "d":
-                            LogUtils.log(LOG_SOURCE, "Right way selected")
-                            controller.simple_right()
+            try:
+                command = next(command_sequence)
+                match command:
+                    case "a":
+                        LogUtils.log(LOG_SOURCE, "Left way selected.")
+                        controller.simple_left()
+                    case "w":
+                        LogUtils.log(LOG_SOURCE, "Straight way selected.")
+                        controller.simple_straight()
+                    case "d":
+                        LogUtils.log(LOG_SOURCE, "Right way selected.")
+                        controller.simple_right()
+            
+            except StopIteration:
+                LogUtils.log(LOG_SOURCE, "Target Arrived! Program terminated.")
+                controller.stop()
+                break
 
             # controller.simple_straight()
-            controller.start()
+            # controller.start()
 
     # 程序退出万岁
     if keyboard.is_pressed("q"):

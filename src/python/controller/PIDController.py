@@ -1,9 +1,6 @@
 from utils.LogUtils import LogUtils
-from qvl.qbot_platform import QLabsQBotPlatform
-from utils.QBotUtils import QBotUtils
 import time
 import cv2
-from PIL import Image
 import numpy as np
 
 LOG_SOURCE = "PIDController"
@@ -13,9 +10,9 @@ MAX_SPEED = 0.5
 class PIDController:
     def __init__(self, qbot, control_priod):
         
-        self.Kp = 0.02
-        self.Ki = -0.001
-        self.Kd = 0.15
+        self.Kp = 0.035
+        self.Ki = 0.002
+        self.Kd = 0.045
         self.prev_error = 0
         self.intergral = 0
         self.control_priod = control_priod
@@ -80,8 +77,8 @@ class PIDController:
         self.apply_speed()
         time.sleep(5)
         self.start()
-        time.sleep(1)
-        self.stop()
+        time.sleep(0.5)
+        # self.stop()
         LogUtils.log(LOG_SOURCE, "Left steering completed.")
 
         
@@ -92,12 +89,13 @@ class PIDController:
         self.apply_speed()
         time.sleep(5)
         self.start()
-        time.sleep(1)
+        time.sleep(0.5)
+        # self.stop()
         LogUtils.log(LOG_SOURCE, "Right steering completed.")
         
     def simple_straight(self):
         LogUtils.log(LOG_SOURCE, "Going straight automatically...")
         self.start()
-        time.sleep(1)
-        self.stop()
+        time.sleep(0.5)
+        # self.stop()
         LogUtils.log(LOG_SOURCE, "Continue to main program.")
