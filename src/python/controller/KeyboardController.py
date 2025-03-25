@@ -20,6 +20,9 @@ class KeyboardController(BaseController):
         
         self.logger.info("Keyboard controller binded to QBot Instance.")
         self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
+        
+    def initialize(self):
+        self.stop()
     
     def send(self, signal):
         match signal:

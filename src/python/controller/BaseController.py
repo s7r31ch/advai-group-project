@@ -6,6 +6,11 @@ class BaseController:
         self.qbot = qbot
         self.control_period = control_period
         self.stop()
+    
+    # 子类需要重写此方法
+    # 指定切换到此控制器时的初始动作
+    def initialize(self):
+        pass
         
     def set_speed(self,
                   wheel_speed_left,

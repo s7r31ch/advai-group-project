@@ -30,8 +30,8 @@ class PIDController(BaseController):
         self.stop()
      
     def compute(self, error):
-        self.intergral += error * self.control_priod
-        derivative = (error - self.prev_error) / self.control_priod
+        self.intergral += error * self.control_period
+        derivative = (error - self.prev_error) / self.control_period
         P = self.Kp * error
         I = self.Ki * self.intergral
         D = self.Kd * derivative
@@ -40,7 +40,7 @@ class PIDController(BaseController):
         return output
     
     # 以获取白线中心为目标吧
-    def get_center(self, image_raw):
+    def get_track_center(self, image_raw):
 
         # 很可能是对 ROI 区域的获取
         image_roi = image_raw[185:215,:]
@@ -60,7 +60,7 @@ class PIDController(BaseController):
                        speed_constraint = self.MAX_SPEED).apply_speed()
     
     # 仅 PID 控制器有，让机器以 BASE_SPEED 运行起来
-    def start(self):
+    def initialize(self):
         self.set_speed(wheel_speed_left = self.BASE_SPEED,
                        wheel_speed_right = self.BASE_SPEED).apply_speed()
     
@@ -70,26 +70,27 @@ class PIDController(BaseController):
     # simple_straight()
     def simple_left(self):
         self.logger.info("Steering to left automatically...")
-        self.wheel_speed_left = -0.05
-        self.wheel_speed_right = 0.07
-        self.apply_speed()
+        self.set_speed(wheel_speed_left = -0.05,
+                       wheel_speed_right = 0.07).apply_speed()
         time.sleep(5)
-        self.start()
+        self.set_speed(wheel_speed_left = self.BASE_SPEED,
+                       wheel_speed_right = self.BASE_SPEED).apply_speed()
         time.sleep(0.5)
         self.logger.info("Left steering completed.")
 
     def simple_right(self):
         self.logger.info("Steering to right automatically...")
-        self.wheel_speed_left = 0.07
-        self.wheel_speed_right = -0.05
-        self.apply_speed()
+        self.set_speed(wheel_speed_left = 0.07,
+                       wheel_speed_right = -0.05).apply_speed()
         time.sleep(5)
-        self.start()
+        self.set_speed(wheel_speed_left = self.BASE_SPEED,
+                       wheel_speed_right = self.BASE_SPEED).apply_speed()
         time.sleep(0.5)
         self.logger.info("Right steering completed.")
         
     def simple_straight(self):
         self.logger.info("Going straight automatically...")
-        self.start()
+        self.set_speed(wheel_speed_left = self.BASE_SPEED,
+                       wheel_speed_right = self.BASE_SPEED).apply_speed()
         time.sleep(0.5)
         self.logger.info("Continue to main program.")
