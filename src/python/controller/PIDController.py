@@ -28,11 +28,7 @@ class PIDController(Controller):
         self.intergral = 0
         
         self.stop()
-        
-        
-        
-        
-
+     
     def compute(self, error):
         self.intergral += error * self.control_priod
         derivative = (error - self.prev_error) / self.control_priod
@@ -43,8 +39,10 @@ class PIDController(Controller):
         self.prev_error = error
         return output
     
+    # 以获取白线中心为目标吧
     def get_center(self, image_raw):
 
+        # 很可能是对 ROI 区域的获取
         image_roi = image_raw[185:215,:]
         
         _, thresh = cv2.threshold(image_roi, 200, 255, cv2.THRESH_BINARY)
@@ -53,23 +51,23 @@ class PIDController(Controller):
         
         return center
     
+    # 很可能是对误差的修正，也就是说输入控制量，控制左右轮差速，无返回值
     def error_correction(self, control_variable):
         
-        # 献上对速度的限制
-        if self.wheel_speed_left < self.MAX_SPEED and self.wheel_speed_right < self.MAX_SPEED:
-            self.wheel_speed_left += control_variable / 1000
-            self.wheel_speed_right -= control_variable / 1000
-            
-        self.apply_speed()
+        # 献上对速度的控制，基于控制量
+        self.set_speed(wheel_speed_left = self.wheel_speed_left + control_variable / 1000,
+                       wheel_speed_right = self.wheel_speed_right - control_variable / 1000,
+                       speed_constraint = self.MAX_SPEED).apply_speed()
     
-    
-        
+    # 仅 PID 控制器有，让机器以 BASE_SPEED 运行起来
     def start(self):
-        self.wheel_speed_right = self.wheel_speed_left = self.BASE_SPEED
-        self.apply_speed()
+        self.set_speed(wheel_speed_left = self.BASE_SPEED,
+                       wheel_speed_right = self.BASE_SPEED).apply_speed()
     
-    
-    
+    # 前有开环控制转向的预感，敬请见证！
+    # simple_left()
+    # simple_right()
+    # simple_straight()
     def simple_left(self):
         self.logger.info("Steering to left automatically...")
         self.wheel_speed_left = -0.05
@@ -80,7 +78,6 @@ class PIDController(Controller):
         time.sleep(0.5)
         self.logger.info("Left steering completed.")
 
-        
     def simple_right(self):
         self.logger.info("Steering to right automatically...")
         self.wheel_speed_left = 0.07

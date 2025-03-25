@@ -1,19 +1,20 @@
 from devtoolkit.Log4P import Log4P
 
-LOG_SOURCE = "KeyboardController"
-
 class KeyboardController:
     
-    def __init__(self, qbot, delta):
-        self.wheel_speed_left = 0
-        self.wheel_speed_right = 0
-        self.delta = delta
-        self.qbot = qbot
-        
+    CONTROL_DELTA = 0.05
+    
+    def __init__(self, 
+                 qbot, 
+                 control_period):
         self.logger = Log4P(enable_level = True,
                        enable_timestamp = True,
                        enable_source = True,
                        source = "KeyboardController")
+        
+        super().__init__(qbot, control_period)
+        self.logger.info("Keyboard controller binded to QBot Instance.")
+        
         
         self.logger.info("Keyboard controller binded to QBot Instance.")
         self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
