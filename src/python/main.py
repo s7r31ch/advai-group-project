@@ -6,6 +6,7 @@ import time
 import keyboard
 import sys
 import matplotlib.pyplot as plt
+import os
 
 from utils.QLabsUtils import QLabsUtils
 from utils.EnvironmentUtils import EnvironmentUtils
@@ -38,9 +39,15 @@ def change_control_type():
     
 if __name__ == "__main__":
     
-    MANUAL_CONTROL_PERIOD = 0.1
-    PID_CONTROL_PERIOD = 0.05
-    CAMERA_CENTER = 320
+    # Parameters check before run
+    IMAGE_SAV_DIR = "src/resources/saved-images"
+    IMAGE_MODE = False
+    CNN_MODEL_PATH = "src/resources/model_2025-03-22-184045.pth"
+    
+    # Parameters do not change
+    _MANUAL_CONTROL_PERIOD = 0.1
+    _PID_CONTROL_PERIOD = 0.05
+    _CAMERA_CENTER = 320
     
     # Foundamental components setting
     logger = Log4P(enable_level = True,
@@ -62,17 +69,18 @@ if __name__ == "__main__":
     qbot = QBotUtils.get_qbot(qlab,location,rotation)
     logger.info("Experiment environment initialized.")
     
-    # Controller initialing
+    # Controller initializing
     keyboard_controller = KeyboardController(qbot = qbot,
-                                             control_period = MANUAL_CONTROL_PERIOD)
+                                             control_period = _MANUAL_CONTROL_PERIOD)
     pid_controller = PIDController(qbot = qbot,
-                                   control_period = PID_CONTROL_PERIOD)
+                                   control_period = _PID_CONTROL_PERIOD)
     
     # CNN model loading
     myCNN = MyCNN(6)
-    classifier = Classifier("src/resources/model_2025-03-22-184045.pth", myCNN)
+    classifier = Classifier(CNN_MODEL_PATH, myCNN)
     logger.info("CNN model loaded.")
     
+    # Visualization Initializing
     plt.ion()
     fig, ax = plt.subplots()
     ax.set_xlim(-100, 100)  # x轴范围
@@ -85,6 +93,9 @@ if __name__ == "__main__":
     point, = ax.plot([], [], 'ro')
     fig.canvas.manager.set_window_title("Monitor | Error on X-axis")
     fig.canvas.manager.window.hide()
+    
+    # 初始关闭图像采集模式
+    os.makedirs(IMAGE_SAV_DIR, exist_ok=True)
     
     # 也就是说，前方有对控制方式的选择
     change_control_type()
@@ -101,6 +112,11 @@ if __name__ == "__main__":
             logger.info("Program terminated to change control type.")
             controller.stop()
             change_control_type()
+        
+        if keyboard.is_pressed("g"):
+            IMAGE_MODE = not IMAGE_MODE
+            if IMAGE_MODE: logger.info("Image mode enabled.")
+            else: logger.info("Image mod disabled.")
             
         if keyboard.is_pressed("esc"):
             logger.info("Program terminated manually.")
@@ -111,6 +127,11 @@ if __name__ == "__main__":
         is_success, image_raw = QBotUtils.get_image(qbot, QLabsQBotPlatform.CAMERA_DOWNWARD)
         cv2.imshow("Monitor | Down Camera", image_raw)
         cv2.waitKey(10)
+        if IMAGE_MODE:
+            image_name = int(time.time())
+            image_ext = ".jpg"
+            image_path = f"{IMAGE_SAV_DIR}/{image_name}{image_ext}"
+            cv2.imwrite(image_path, image_raw)
         
         # 前有手动控制
         if control_type == "m":
@@ -124,7 +145,7 @@ if __name__ == "__main__":
             match label:
                 case "single":
                     track_center = controller.get_track_center(image_raw)
-                    error = track_center - CAMERA_CENTER
+                    error = track_center - _CAMERA_CENTER
                     message = "Current error on X-axis: " + str(error)
                     logger.info(message)
                     
