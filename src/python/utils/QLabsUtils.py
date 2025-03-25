@@ -2,7 +2,7 @@ import numpy
 import time
 
 from qvl.qlabs import QuanserInteractiveLabs
-from utils.LogUtils import LogUtils
+from devtoolkit.Log4P import Log4P
 
 PI = numpy.pi
 LOG_SOURCE = "QlabUtils"
@@ -16,12 +16,16 @@ class QLabsUtils:
     
     @staticmethod
     def get_qlab(address):
-        LogUtils.log(LOG_SOURCE, "Connecting to virtual environment...")
+        logger = Log4P(enable_level = True,
+                       enable_timestamp = True,
+                       enable_source = True,
+                       source = "QlabUtils")
+        logger.info("Connecting to virtual environment...")
         quanser_interactive_labs = QuanserInteractiveLabs()
         quanser_interactive_labs.open(address)
-        LogUtils.log(LOG_SOURCE, "Virtual environment connected.")
-        LogUtils.log(LOG_SOURCE, "Formatting virtual environment...")
+        logger.info("Virtual environment connected.")
+        logger.info("Formatting virtual environment...")
         quanser_interactive_labs.destroy_all_spawned_actors()
-        LogUtils.log(LOG_SOURCE, "Virtual environment formatted.")
+        logger.info("Virtual environment formatted.")
         return quanser_interactive_labs
     
