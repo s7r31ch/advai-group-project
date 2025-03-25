@@ -3,12 +3,12 @@ import time
 import cv2
 import numpy as np
 
-from controller.Controller import Controller
+from controller.BaseController import BaseController
 from devtoolkit.Log4P import Log4P
 
 
 
-class PIDController(Controller):
+class PIDController(BaseController):
     
     BASE_SPEED = 0.1
     MAX_SPEED = 0.5

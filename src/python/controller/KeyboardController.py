@@ -1,8 +1,10 @@
 from devtoolkit.Log4P import Log4P
+from controller.BaseController import BaseController
 
-class KeyboardController:
+class KeyboardController(BaseController):
     
     CONTROL_DELTA = 0.05
+    SPEED_MAX = 1
     
     def __init__(self, 
                  qbot, 
@@ -22,27 +24,21 @@ class KeyboardController:
     def send(self, signal):
         match signal:
             case "w":
-                self.wheel_speed_left += self.delta
-                self.wheel_speed_right += self.delta
-                self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
+                self.set_speed(wheel_speed_left = self.wheel_speed_left + self.CONTROL_DELTA,
+                               wheel_speed_right = self.wheel_speed_right + self.CONTROL_DELTA).apply_speed()
                 self.logger.info("Accelerate")
             case "s":
-                self.wheel_speed_left -= self.delta
-                self.wheel_speed_right -= self.delta
-                self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
+                self.set_speed(wheel_speed_left = self.wheel_speed_left - self.CONTROL_DELTA,
+                               wheel_speed_right = self.wheel_speed_right - self.CONTROL_DELTA).apply_speed()
                 self.logger.info("Decelerate")
             case "a":
-                self.wheel_speed_left -= self.delta
-                self.wheel_speed_right += self.delta
-                self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
+                self.set_speed(wheel_speed_left = self.wheel_speed_left - self.CONTROL_DELTA,
+                               wheel_speed_right = self.wheel_speed_right + self.CONTROL_DELTA).apply_speed()
                 self.logger.info("Yaw to left")
             case "d":
-                self.wheel_speed_left += self.delta
-                self.wheel_speed_right -= self.delta
-                self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
+                self.set_speed(wheel_speed_left = self.wheel_speed_left + self.CONTROL_DELTA,
+                               wheel_speed_right = self.wheel_speed_right - self.CONTROL_DELTA).apply_speed()
                 self.logger.info("Yaw to right")
             case "b":
-                self.wheel_speed_left = 0
-                self.wheel_speed_right = 0
-                self.qbot.command_and_request_state(self.wheel_speed_right, self.wheel_speed_left)
+                self.stop()
                 self.logger.info("Stop")

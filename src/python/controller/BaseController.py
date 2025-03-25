@@ -1,4 +1,4 @@
-class Controller:
+class BaseController:
     # 绑定控制器
     # 设置控制间隔
     # 停止机器人实例
@@ -12,7 +12,7 @@ class Controller:
                   wheel_speed_right,
                   **kwargs):
         # 要是存在速度限制的话
-        if "speed_constraint" in kwargs or abs(wheel_speed_left) <= kwargs["speed_constraint"] and abs(wheel_speed_right) <= kwargs["speed_constraint"]:
+        if "speed_constraint" not in kwargs or abs(wheel_speed_left) <= kwargs["speed_constraint"] and abs(wheel_speed_right) <= kwargs["speed_constraint"]:
             self.wheel_speed_left = wheel_speed_left
             self.wheel_speed_right = wheel_speed_right
             
