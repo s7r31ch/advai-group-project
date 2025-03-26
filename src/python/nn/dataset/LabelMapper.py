@@ -16,4 +16,4 @@ class LabelMapper:
         3: "t_right",
         4: "cross",
         5: "off_track"
-}
+    }

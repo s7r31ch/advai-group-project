@@ -42,7 +42,7 @@ if __name__ == "__main__":
     # Parameters check before run
     IMAGE_SAV_DIR = "src/resources/saved-images"
     IMAGE_MODE = False
-    CNN_MODEL_PATH = "src/resources/model_2025-03-22-184045.pth"
+    CNN_MODEL_PATH = "src/resources/mycnn-20250326.pth"
     
     # Parameters do not change
     _MANUAL_CONTROL_PERIOD = 0.1

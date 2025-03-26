@@ -1,0 +1,52 @@
+[Info][2025-03-26 10:15:40][train-trackcnn]: Training in progress: TrackCNN  |  Toltal parameter number: 16874502
+[Info][2025-03-26 10:16:39][train-trackcnn]: 
+[Info][2025-03-26 10:16:39][train-trackcnn]: Epoch [1/10]
+[Info][2025-03-26 10:16:39][train-trackcnn]: Train Loss: 3.4075, Train Accuracy: 85.30%
+[Info][2025-03-26 10:16:39][train-trackcnn]: Validation Loss: 0.4414, Validation Accuracy: 92.44%
+[Info][2025-03-26 10:16:39][train-trackcnn]: 
+[Info][2025-03-26 10:17:37][train-trackcnn]: 
+[Info][2025-03-26 10:17:37][train-trackcnn]: Epoch [2/10]
+[Info][2025-03-26 10:17:37][train-trackcnn]: Train Loss: 0.2185, Train Accuracy: 95.05%
+[Info][2025-03-26 10:17:37][train-trackcnn]: Validation Loss: 0.1645, Validation Accuracy: 95.93%
+[Info][2025-03-26 10:17:37][train-trackcnn]: 
+[Info][2025-03-26 10:18:33][train-trackcnn]: 
+[Info][2025-03-26 10:18:33][train-trackcnn]: Epoch [3/10]
+[Info][2025-03-26 10:18:33][train-trackcnn]: Train Loss: 0.0668, Train Accuracy: 98.11%
+[Info][2025-03-26 10:18:33][train-trackcnn]: Validation Loss: 0.1403, Validation Accuracy: 96.51%
+[Info][2025-03-26 10:18:33][train-trackcnn]: 
+[Info][2025-03-26 10:19:28][train-trackcnn]: 
+[Info][2025-03-26 10:19:28][train-trackcnn]: Epoch [4/10]
+[Info][2025-03-26 10:19:28][train-trackcnn]: Train Loss: 0.0463, Train Accuracy: 98.40%
+[Info][2025-03-26 10:19:28][train-trackcnn]: Validation Loss: 0.1419, Validation Accuracy: 96.51%
+[Info][2025-03-26 10:19:28][train-trackcnn]: 
+[Info][2025-03-26 10:20:23][train-trackcnn]: 
+[Info][2025-03-26 10:20:23][train-trackcnn]: Epoch [5/10]
+[Info][2025-03-26 10:20:23][train-trackcnn]: Train Loss: 0.0357, Train Accuracy: 98.54%
+[Info][2025-03-26 10:20:23][train-trackcnn]: Validation Loss: 0.1344, Validation Accuracy: 95.35%
+[Info][2025-03-26 10:20:23][train-trackcnn]: 
+[Info][2025-03-26 10:21:19][train-trackcnn]: 
+[Info][2025-03-26 10:21:19][train-trackcnn]: Epoch [6/10]
+[Info][2025-03-26 10:21:19][train-trackcnn]: Train Loss: 0.0160, Train Accuracy: 99.42%
+[Info][2025-03-26 10:21:19][train-trackcnn]: Validation Loss: 0.1128, Validation Accuracy: 96.51%
+[Info][2025-03-26 10:21:19][train-trackcnn]: 
+[Info][2025-03-26 10:22:14][train-trackcnn]: 
+[Info][2025-03-26 10:22:14][train-trackcnn]: Epoch [7/10]
+[Info][2025-03-26 10:22:14][train-trackcnn]: Train Loss: 0.0163, Train Accuracy: 99.42%
+[Info][2025-03-26 10:22:14][train-trackcnn]: Validation Loss: 0.1247, Validation Accuracy: 95.93%
+[Info][2025-03-26 10:22:14][train-trackcnn]: 
+[Info][2025-03-26 10:23:10][train-trackcnn]: 
+[Info][2025-03-26 10:23:10][train-trackcnn]: Epoch [8/10]
+[Info][2025-03-26 10:23:10][train-trackcnn]: Train Loss: 0.0121, Train Accuracy: 99.56%
+[Info][2025-03-26 10:23:10][train-trackcnn]: Validation Loss: 0.1410, Validation Accuracy: 96.51%
+[Info][2025-03-26 10:23:10][train-trackcnn]: 
+[Info][2025-03-26 10:24:09][train-trackcnn]: 
+[Info][2025-03-26 10:24:09][train-trackcnn]: Epoch [9/10]
+[Info][2025-03-26 10:24:09][train-trackcnn]: Train Loss: 0.0243, Train Accuracy: 99.85%
+[Info][2025-03-26 10:24:09][train-trackcnn]: Validation Loss: 0.1750, Validation Accuracy: 96.51%
+[Info][2025-03-26 10:24:09][train-trackcnn]: 
+[Info][2025-03-26 10:25:07][train-trackcnn]: 
+[Info][2025-03-26 10:25:07][train-trackcnn]: Epoch [10/10]
+[Info][2025-03-26 10:25:07][train-trackcnn]: Train Loss: 0.0223, Train Accuracy: 99.42%
+[Info][2025-03-26 10:25:07][train-trackcnn]: Validation Loss: 0.1335, Validation Accuracy: 95.93%
+[Info][2025-03-26 10:25:07][train-trackcnn]: 
+[Info][2025-03-26 10:25:07][train-trackcnn]: Training Finished!
